@@ -149,27 +149,52 @@ function svgPoint(evt) {
 }
 
 let dragOffset = null;
+let dragPointer = null;   // solo un dedo/puntero arrastra a la vez
+let dragFrame = 0;        // los movimientos se agrupan en un fotograma (móvil más fluido)
+
+// En móvil, que tocar el periódico no desplace ni haga zoom en la página
+// (Safari no respeta touch-action en elementos SVG, por eso también touchstart)
+paper.addEventListener('touchstart', (e) => { if (state.shadow.enabled) e.preventDefault(); }, { passive: false });
 
 paper.addEventListener('pointerdown', (e) => {
+  if (dragPointer !== null) return;
   const p = svgPoint(e);
   dragOffset = { dx: p.x - state.shadow.x, dy: p.y - state.shadow.y };
+  dragPointer = e.pointerId;
   paper.classList.add('dragging');
-  paper.setPointerCapture(e.pointerId);
+  try { paper.setPointerCapture(e.pointerId); } catch (_) { /* puntero ya liberado */ }
   e.preventDefault();
 });
 
 paper.addEventListener('pointermove', (e) => {
-  if (!dragOffset) return;
+  if (!dragOffset || e.pointerId !== dragPointer) return;
   const p = svgPoint(e);
   const b = MODULE_BOUNDS;
   state.shadow.x = Math.min(b.xMax, Math.max(b.xMin, p.x - dragOffset.dx));
   state.shadow.y = Math.min(b.yMax, Math.max(b.yMin, p.y - dragOffset.dy));
-  drawPaper();
-  notify();
+  e.preventDefault();
+  if (dragFrame) return;
+  dragFrame = requestAnimationFrame(() => {
+    dragFrame = 0;
+    drawPaper();
+    notify();
+  });
 });
 
-const endDrag = () => {
+// Doble toque en pantalla táctil = girar (el dblclick no llega en móvil)
+let lastTap = { t: 0, x: 0, y: 0 };
+paper.addEventListener('pointerup', (e) => {
+  if (e.pointerType !== 'touch' || e.pointerId !== dragPointer) return;
+  const now = performance.now();
+  const near = Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30;
+  if (now - lastTap.t < 350 && near) { rotatePaper(); lastTap.t = 0; }
+  else lastTap = { t: now, x: e.clientX, y: e.clientY };
+});
+
+const endDrag = (e) => {
+  if (e && e.pointerId !== dragPointer) return;
   dragOffset = null;
+  dragPointer = null;
   paper.classList.remove('dragging');
 };
 paper.addEventListener('pointerup', endDrag);

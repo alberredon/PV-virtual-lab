@@ -423,7 +423,7 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
 .thermo-ticks line { stroke: var(--faint); stroke-width: 1.5; }
 .thermo-ticks text { font-size: 13px; text-anchor: end; fill: var(--muted); }
 
-#newspaper { cursor: grab; filter: drop-shadow(2px 4px 6px rgba(16, 24, 40, .25)); }
+#newspaper { cursor: grab; touch-action: none; -webkit-user-select: none; user-select: none; filter: drop-shadow(2px 4px 6px rgba(16, 24, 40, .25)); }
 #newspaper.dragging { cursor: grabbing; }
 #newspaper:focus { outline: none; }
 #newspaper:focus-visible > rect:first-child { stroke: var(--accent); stroke-width: 3; }
