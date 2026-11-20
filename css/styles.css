@@ -406,8 +406,11 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
 /* diodos de bypass (los atributos del SVG se sobrescriben aquí) */
 #bypassDiodes { stroke: var(--wire); }
 #bypassDiodes polygon { fill: var(--wire); }
-.diode.active polygon { fill: #f59e0b; }
-.diode.active line { stroke: #f59e0b; }
+#bypassDiodes .diode.active polygon { fill: #f59e0b; stroke: #f59e0b; }
+#bypassDiodes .diode.active line { stroke: #f59e0b; }
+/* flecha de corriente junto al diodo: solo visible cuando conduce */
+#bypassDiodes .diode-arrow { display: none; stroke: #f59e0b; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+#bypassDiodes .diode.active .diode-arrow { display: inline; }
 .diode.active { filter: drop-shadow(0 0 4px rgba(245, 158, 11, .7)); }
 .sub-shade { font-size: 14px; font-weight: 600; fill: var(--amber); }
 
