@@ -505,33 +505,52 @@ function toggleInverter() {
   }
   powerBtn.classList.toggle('on', state.inverterOn);
   powerBtn.setAttribute('aria-pressed', state.inverterOn);
+  $('inverterLed').classList.toggle('on', state.inverterOn);   // piloto en el esquema
   notify();
 }
 powerBtn.addEventListener('click', toggleInverter);
-powerBtn.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleInverter(); }
-});
 
 /* ---------- Botones verde, rojo y descarga (funciones pendientes) ---------- */
 $('btnGreen').addEventListener('click', () => {
   document.dispatchEvent(new CustomEvent('sim:green'));
 });
-// Borrar pide confirmación nombrando la curva (no se puede deshacer)
-const clearDialog = $('clearDialog');
 $('btnRed').addEventListener('click', () => {
-  if (!PVCharts.hasSaved()) return;                    // nada que borrar
-  $('clearText').textContent = I18N.t('confirm.clear.body').replace('{tag}', PVCharts.savedTag());
-  clearDialog.returnValue = '';
-  clearDialog.showModal();
-});
-clearDialog.addEventListener('close', () => {
-  if (clearDialog.returnValue === 'delete') document.dispatchEvent(new CustomEvent('sim:red'));
-});
-clearDialog.addEventListener('click', (e) => {
-  if (e.target === clearDialog) clearDialog.close('cancel');
+  document.dispatchEvent(new CustomEvent('sim:red'));
 });
 $('btnDownload').addEventListener('click', () => {
   document.dispatchEvent(new CustomEvent('sim:download'));
+});
+
+/* ---------- Modo proyector ---------- */
+// Pantalla completa + texto más grande (clase .projector en <html>).
+// Al salir de pantalla completa con Esc también se sale del modo proyector.
+const projBtn = $('btnProjector');
+const CHART_FONT = { normal: 12, projector: 16 };   // px en las gráficas (canvas)
+
+function setProjector(on) {
+  document.documentElement.classList.toggle('projector', on);
+  projBtn.setAttribute('aria-pressed', on);
+  Chart.defaults.font.size = on ? CHART_FONT.projector : CHART_FONT.normal;
+  Object.values(Chart.instances).forEach((c) => c.update());
+  window.dispatchEvent(new Event('resize'));          // reajusta leyenda y pies de las gráficas
+}
+
+projBtn.addEventListener('click', async () => {
+  const on = !document.documentElement.classList.contains('projector');
+  setProjector(on);
+  try {
+    if (on && !document.fullscreenElement && document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    } else if (!on && document.fullscreenElement) {
+      await document.exitFullscreen();
+    }
+  } catch (e) { /* sin pantalla completa (p. ej. iPhone): solo texto grande */ }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement && document.documentElement.classList.contains('projector')) {
+    setProjector(false);
+  }
 });
 
 /* ---------- Inicialización ---------- */

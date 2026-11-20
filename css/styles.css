@@ -94,6 +94,37 @@ body {
   letter-spacing: -.01em;
   color: var(--ink);
 }
+/* Acciones de la cabecera: Zenodo · GitHub · Proyector · Idioma */
+.top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.top-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.top-btn svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.top-btn:hover { border-color: var(--accent); color: var(--accent); }
+.top-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.top-btn[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+
 .lang-switch {
   display: inline-flex;
   padding: 4px;
@@ -341,12 +372,13 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
 .chart-legend li { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .chart-legend svg { width: 24px; height: 12px; flex: none; }
 
-/* Parámetros: rejilla de 3 columnas × 2 filas (caben siempre, sin recortes) */
+/* Parámetros: tantas columnas como quepan (4 en escritorio, 3 en paneles estrechos);
+   7.5em ≈ ancho del parámetro más largo ("Pmax: 373.3 W") */
 .pv-params {
   flex: 1;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(7.5em, 1fr));
   gap: 4px 16px;
   font-size: var(--fs-meta);
   white-space: nowrap;
@@ -394,11 +426,9 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
 #newspaper:focus-visible > rect:first-child { stroke: var(--accent); stroke-width: 3; }
 #moduleShade, #moduleSheen { pointer-events: none; transition: opacity .2s; }
 
-.power-btn { cursor: pointer; }
-.power-btn circle { fill: #7f1d1d; stroke: #fff; stroke-width: 2; transition: fill .15s; }
-.power-btn.on circle { fill: #ef4444; filter: drop-shadow(0 0 6px rgba(239, 68, 68, .8)); }
-.power-btn:focus { outline: none; }
-.power-btn:focus-visible circle { stroke: var(--accent); stroke-width: 3; }
+/* piloto de encendido del microinversor (solo indicador) */
+.inv-led circle { fill: #7f1d1d; stroke: #fff; stroke-width: 2; transition: fill .15s; }
+.inv-led.on circle { fill: #ef4444; filter: drop-shadow(0 0 6px rgba(239, 68, 68, .8)); }
 
 /* ---------- Displays ---------- */
 .displays {
@@ -474,10 +504,32 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
 .inverter-control { padding-top: 16px; }
 .inv-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   padding: 0 16px;
 }
+/* Botón de encendido del microinversor (misma forma que el de MPPT) */
+.power-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--fs-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.power-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.power-btn:hover { border-color: var(--red); color: var(--red); }
+.power-btn.on { background: var(--red); border-color: var(--red); color: #fff; }
+
 .mppt-btn {
   min-width: 104px;
   min-height: 32px;
@@ -629,7 +681,6 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
   font-size: var(--fs-secondary);
   line-height: 1.5;
 }
-.confirm-text { margin: 0; font-size: var(--fs-secondary); line-height: 1.5; color: var(--text); }
 
 fieldset {
   border: 1px solid var(--border);
@@ -662,8 +713,6 @@ legend { font-size: var(--fs-meta); font-weight: 600; padding: 0 4px; color: var
 .btn-primary:hover { background: var(--accent-ink); }
 .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border-strong); }
 .btn-secondary:hover { background: var(--surface-2); }
-.btn-danger { background: var(--red); color: #fff; border: 1px solid var(--red); }
-.btn-danger:hover { background: var(--red-ink); }
 
 /* ---------- Selector de tecnología de célula (con esquema al pasar el ratón) ---------- */
 .cell-options {
@@ -730,6 +779,26 @@ legend { font-size: var(--fs-meta); font-weight: 600; padding: 0 4px; color: var
 .sch-caption { display: block; font-size: var(--fs-meta); color: var(--text); margin-top: 8px; line-height: 1.5; }
 .sch-caption b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 
+/* ---------- Pie de página ---------- */
+.site-footer {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 8px 16px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.footer-logo { display: block; height: 48px; width: auto; }
+.footer-credit {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 1px solid var(--border-strong);
+  font-size: var(--fs-secondary);
+  color: var(--muted);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
   .app {
@@ -748,21 +817,37 @@ legend { font-size: var(--fs-meta); font-weight: 600; padding: 0 4px; color: var
     padding: 8px;
     gap: 8px;
   }
-  .topbar { padding: 12px 8px 0; }
+  .topbar { padding: 12px 8px 0; flex-wrap: wrap; }
+  .top-actions { gap: 4px; }
+  .site-footer { flex-direction: column; gap: 8px; padding: 8px 8px 24px; }
+  .footer-credit { padding-left: 0; border-left: 0; text-align: center; }
+  /* En pantallas estrechas los botones de la cabecera quedan solo con icono
+     (el texto sigue disponible para lectores de pantalla) */
+  .top-btn { padding: 4px; }
+  .top-btn-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .top-btn svg { width: 20px; height: 20px; }
   .scope-grid { grid-template-columns: minmax(0, 1fr); }
   .display-value { font-size: 1.125rem; }
-  .displays.four { grid-template-columns: repeat(2, 1fr); }
-  .chart-footer { flex-wrap: wrap; }
+  .displays.four { grid-template-columns: repeat(2, 1fr); }  .chart-footer { flex-wrap: wrap; }
 }
 
 /* Pantallas táctiles o estrechas: todas las zonas pulsables de al menos 44 px */
 @media (pointer: coarse), (max-width: 700px) {
   .lang-switch button { min-height: var(--hit); min-width: var(--hit); }
+  .top-btn { min-height: var(--hit); min-width: var(--hit); }
   .panel-header { min-height: var(--hit); }
   .rotate-btn,
   .scope-btn,
   .scope-controls select,
   .mppt-btn,
+  .power-btn,
   .dialog-buttons button,
   .form-grid input,
   .form-grid select { min-height: var(--hit); }
@@ -770,6 +855,23 @@ legend { font-size: var(--fs-meta); font-weight: 600; padding: 0 4px; color: var
   .checkbox-label input { width: 24px; height: 24px; }
   input[type="range"] { min-height: var(--hit); }
   .radio-group label { min-height: var(--hit); margin: 0; }
+}
+
+/* ---------- Modo proyector ---------- */
+/* Todo lo que está en rem crece un 25 %; lo que está en px se ajusta aquí */
+html.projector { font-size: 125%; }
+html.projector body { min-height: 100dvh; }
+html.projector .topbar,
+html.projector .app,
+html.projector .site-footer { max-width: none; }
+html.projector .chart-area { min-height: 380px; }
+html.projector .scope-screen { height: 260px; }
+html.projector .tool-btn svg,
+html.projector .top-btn svg { width: 24px; height: 24px; }
+html.projector .panel-header .gear { width: 36px; height: 36px; }
+html.projector .checkbox-label input { width: 22px; height: 22px; }
+@media (min-width: 1101px) {
+  html.projector .app { grid-template-columns: 360px minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -100,6 +100,7 @@
     $('paramImpp').textContent = `${fmt(curve.impp, 2)} A`;
     $('paramPmax').textContent = `${fmt(curve.pmax, 1)} W`;
     $('paramFF').textContent = fmt(curve.ff, 3);
+    $('paramEff').textContent = `${fmt(efficiency(curve.pmax), 1)} %`;   // ηmax = Pmax / (G·A)
 
     // Displays DC (lo que entrega el módulo)
     $('outVoltage').textContent = `${fmt(op.v, 1)} V`;
@@ -199,7 +200,7 @@
   }
 
   document.addEventListener('sim:green', () => {
-    if (curve) PVCharts.save(curve, conditionsTag());
+    if (curve) PVCharts.save(curve, conditionsTag(), { g: simState.irradiance, ta: simState.temperature });
   });
   document.addEventListener('sim:red', () => PVCharts.clearSaved());
 

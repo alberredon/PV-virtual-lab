@@ -23,7 +23,7 @@ const PVCharts = (() => {
   const TICK = '#9ca3af';
   const AXIS_TITLE = '#6b7280';
   Chart.defaults.font.family = '"Inter", "Segoe UI", system-ui, sans-serif';
-  Chart.defaults.font.size = 11;
+  Chart.defaults.font.size = 12;           // el modo proyector lo sube a 16 (ui.js)
 
   const xy = (pts, key) => pts.map((p) => ({ x: p.v, y: p[key] }));
 
@@ -37,7 +37,7 @@ const PVCharts = (() => {
         legend: {
           display: showLegend,
           position: 'bottom',
-          labels: { boxWidth: 12, boxHeight: 12, font: { size: 11 }, filter: (item) => item.text !== '' },
+          labels: { boxWidth: 12, boxHeight: 12, filter: (item) => item.text !== '' },
         },
         tooltip: {
           callbacks: {
@@ -154,9 +154,10 @@ const PVCharts = (() => {
     }
   }
 
-  // Guarda la curva actual para compararla (sustituye a la anterior)
-  function save(curve, tag) {
-    saved = { points: curve.points.map((p) => ({ ...p })), tag };
+  // Guarda la curva actual para compararla (sustituye a la anterior).
+  // cond = { g, ta }: irradiancia y temperatura ambiente, que se muestran en la leyenda
+  function save(curve, tag, cond) {
+    saved = { points: curve.points.map((p) => ({ ...p })), tag, cond };
     drawSaved();
   }
 
@@ -182,9 +183,10 @@ const PVCharts = (() => {
     d[0].label = e[1].label = t('lg.iv');
     e[0].label = t('lg.pv');
     d[2].tipLabel = e[6].tipLabel = t('lg.op');
-    // etiqueta corta (leyenda en una línea); las condiciones van en el tooltip
-    e[2].label = saved ? t('lg.savedPV') : '';
-    e[3].label = saved ? t('lg.savedIV') : '';
+    // curvas guardadas: irradiancia y temperatura ambiente en la leyenda; el resto en el tooltip
+    const cond = saved && saved.cond ? ` (${saved.cond.g} W/m², Ta ${saved.cond.ta} °C)` : '';
+    e[2].label = saved ? t('lg.savedPV') + cond : '';
+    e[3].label = saved ? t('lg.savedIV') + cond : '';
     d[3].tipLabel = e[2].tipLabel = e[3].tipLabel = saved ? `${t('lg.saved')} (${saved.tag})` : '';
     iv.options.scales.x.title.text = pv.options.scales.x.title.text = t('ax.voltage');
     iv.options.scales.y.title.text = t('ax.current');
@@ -227,8 +229,5 @@ const PVCharts = (() => {
     renderLegend();
   }
 
-  const hasSaved = () => saved !== null;
-  const savedTag = () => (saved ? saved.tag : '');
-
-  return { setLimits, update, save, clearSaved, hasSaved, savedTag };
+  return { setLimits, update, save, clearSaved };
 })();

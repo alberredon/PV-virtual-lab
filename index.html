@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PV Module Simulator</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
@@ -18,9 +19,30 @@
     </span>
     <h1 data-i18n="app.title">PV Module Simulator</h1>
   </div>
-  <div class="lang-switch" role="group" data-i18n-aria="lang.label" aria-label="Language">
-    <button type="button" data-lang="en" aria-pressed="true">EN</button>
-    <button type="button" data-lang="es" aria-pressed="false">ES</button>
+  <div class="top-actions">
+    <!-- Enlaces externos (Zenodo y GitHub) -->
+    <a class="top-btn" id="linkZenodo" href="https://zenodo.org/" target="_blank" rel="noopener"
+       data-i18n-title="link.zenodo.tip" title="Open the Zenodo record (opens in a new tab)"
+       data-i18n-aria="link.zenodo.tip" aria-label="Open the Zenodo record (opens in a new tab)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h10l6 6v10H4z M14 4v6h6 M8 14h8 M8 17h5"/></svg>
+      <span class="top-btn-label">Zenodo</span>
+    </a>
+    <a class="top-btn" id="linkGithub" href="https://github.com/alberredon/PV-virtual-lab" target="_blank" rel="noopener"
+       data-i18n-title="link.github.tip" title="Open the GitHub repository (opens in a new tab)"
+       data-i18n-aria="link.github.tip" aria-label="Open the GitHub repository (opens in a new tab)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8l-4 4 4 4 M15 8l4 4-4 4"/></svg>
+      <span class="top-btn-label">GitHub</span>
+    </a>
+    <!-- Modo proyector: pantalla completa y texto más grande -->
+    <button type="button" class="top-btn" id="btnProjector" aria-pressed="false"
+            data-i18n-title="proj.tip" title="Projector mode: full screen and larger text">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H3z M12 16v4 M8 20h8"/></svg>
+      <span class="top-btn-label" data-i18n="proj.label">Projector</span>
+    </button>
+    <div class="lang-switch" role="group" data-i18n-aria="lang.label" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="es" aria-pressed="false">ES</button>
+    </div>
   </div>
 </header>
 
@@ -101,6 +123,7 @@
         <div><dt>Impp:</dt><dd id="paramImpp">-- A</dd></div>
         <div><dt>Pmax:</dt><dd id="paramPmax">-- W</dd></div>
         <div><dt>FF:</dt><dd id="paramFF">--</dd></div>
+        <div data-i18n-title="p.eff.tip" title="Maximum module efficiency = Pmax / (G · A)"><dt>ηmax:</dt><dd id="paramEff">-- %</dd></div>
       </dl>
     </div>
   </section>
@@ -276,8 +299,8 @@
         <!-- cable AC -->
         <path d="M872,220 C895,220 895,260 880,270 C860,285 870,300 885,305" stroke="#222" stroke-width="5" fill="none"/>
 
-        <!-- botón de encendido -->
-        <g id="btnInverterPower" class="power-btn" role="button" tabindex="0" aria-pressed="false" aria-label="Turn microinverter on / off" data-i18n-aria="inv.power"><title data-i18n="inv.power">Turn microinverter on / off</title>
+        <!-- piloto de encendido (solo indicador; el botón está en "Output configuration") -->
+        <g id="inverterLed" class="inv-led" aria-hidden="true">
           <circle cx="860" cy="365" r="20"/>
           <path d="M852,358 A11,11 0 1 0 868,358" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
           <line x1="860" y1="350" x2="860" y2="364" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
@@ -324,6 +347,11 @@
     <!-- Modo microinversor: consigna y MPPT -->
     <div class="inverter-control" id="inverterControl" hidden>
       <div class="inv-row">
+        <button type="button" class="power-btn" id="btnInverterPower" aria-pressed="false"
+                data-i18n-title="inv.power" title="Turn microinverter on / off">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 6.5a8 8 0 1 0 9 0 M12 3v8"/></svg>
+          <span data-i18n="inv.label">Inverter</span>
+        </button>
         <button type="button" class="mppt-btn" id="btnMppt" aria-pressed="false">MPPT OFF</button>
         <span class="mode-tag" id="invModeTag">Voltage control</span>
       </div>
@@ -396,6 +424,12 @@
   </section>
 
 </main>
+
+<!-- Pie: autoría y logo de la UVa -->
+<footer class="site-footer">
+  <img class="footer-logo" src="img/logo-uva.svg" alt="Universidad de Valladolid" width="147" height="48">
+  <p class="footer-credit"><span data-i18n="footer.by">Created by</span> Alberto Redondo Plaza</p>
+</footer>
 
 <!-- =========================================================
      DIÁLOGOS (menús de configuración)
@@ -523,18 +557,6 @@
     <div class="dialog-buttons">
       <button type="submit" value="cancel" class="btn-secondary" data-i18n="btn.cancel">Cancel</button>
       <button type="submit" value="apply" class="btn-primary" data-i18n="btn.apply">Apply</button>
-    </div>
-  </form>
-</dialog>
-
-<!-- Confirmación antes de borrar la curva guardada -->
-<dialog id="clearDialog" class="config-dialog" aria-labelledby="clearTitle" aria-describedby="clearText">
-  <form method="dialog">
-    <h3 id="clearTitle" data-i18n="confirm.clear.title">Delete saved curve?</h3>
-    <p class="confirm-text" id="clearText"></p>
-    <div class="dialog-buttons">
-      <button type="submit" value="cancel" class="btn-secondary" data-i18n="btn.cancel" autofocus>Cancel</button>
-      <button type="submit" value="delete" class="btn-danger" data-i18n="btn.delete">Delete curve</button>
     </div>
   </form>
 </dialog>

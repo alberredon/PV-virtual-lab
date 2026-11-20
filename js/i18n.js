@@ -16,6 +16,11 @@ const I18N = (() => {
     en: {
       'app.title': 'PV Module Simulator',
       'lang.label': 'Language',
+      'link.zenodo.tip': 'Open the Zenodo record (opens in a new tab)',
+      'link.github.tip': 'Open the GitHub repository (opens in a new tab)',
+      'footer.by': 'Created by',
+      'proj.label': 'Projector',
+      'proj.tip': 'Projector mode: full screen and larger text',
 
       'pv.title': 'PV Configuration',
       'pv.tip': 'Configure module parameters',
@@ -32,9 +37,6 @@ const I18N = (() => {
       'tool.clear.tip': 'Clear the saved curves',
       'tool.csv': 'Export',
       'tool.csv.tip': 'Export the current I-V / P-V curve as CSV',
-      'confirm.clear.title': 'Delete saved curve?',
-      'confirm.clear.body': 'The saved curve ({tag}) will be removed from both charts. This cannot be undone.',
-      'btn.delete': 'Delete curve',
       'paper.aria': 'Newspaper shadow. Use the arrow keys to move it (Shift for larger steps) and R to rotate it.',
 
       'iv.title': 'I-V curve',
@@ -42,6 +44,7 @@ const I18N = (() => {
       'circuit': 'Circuit',
       'thermo.title': 'Cell temp',
       'inv.power': 'Turn microinverter on / off',
+      'inv.label': 'Inverter',
 
       'out.title': 'Output configuration',
       'out.tip': 'Configure the output',
@@ -50,6 +53,7 @@ const I18N = (() => {
       'd.power': 'Power',
       'd.eff': 'Efficiency',
       'd.eff.tip': 'Module efficiency = P / (G · A)',
+      'p.eff.tip': 'Maximum module efficiency = Pmax / (G · A)',
       'out.load': 'Load:',
       'mode.voltage': 'Voltage control',
       'mode.current': 'Current control',
@@ -123,6 +127,11 @@ const I18N = (() => {
     es: {
       'app.title': 'Simulador de módulo FV',
       'lang.label': 'Idioma',
+      'link.zenodo.tip': 'Abrir el registro de Zenodo (se abre en otra pestaña)',
+      'link.github.tip': 'Abrir el repositorio de GitHub (se abre en otra pestaña)',
+      'footer.by': 'Creado por',
+      'proj.label': 'Proyector',
+      'proj.tip': 'Modo proyector: pantalla completa y texto más grande',
 
       'pv.title': 'Configuración FV',
       'pv.tip': 'Configurar los parámetros del módulo',
@@ -139,9 +148,6 @@ const I18N = (() => {
       'tool.clear.tip': 'Borrar las curvas guardadas',
       'tool.csv': 'Exportar',
       'tool.csv.tip': 'Exportar la curva I-V / P-V actual en CSV',
-      'confirm.clear.title': '¿Borrar la curva guardada?',
-      'confirm.clear.body': 'La curva guardada ({tag}) se quitará de las dos gráficas. No se puede deshacer.',
-      'btn.delete': 'Borrar curva',
       'paper.aria': 'Sombra del periódico. Usa las flechas para moverla (Mayús para pasos grandes) y R para girarla.',
 
       'iv.title': 'Curva I-V',
@@ -149,6 +155,7 @@ const I18N = (() => {
       'circuit': 'Circuito',
       'thermo.title': 'T. célula',
       'inv.power': 'Encender / apagar el microinversor',
+      'inv.label': 'Inversor',
 
       'out.title': 'Configuración de salida',
       'out.tip': 'Configurar la salida',
@@ -157,6 +164,7 @@ const I18N = (() => {
       'd.power': 'Potencia',
       'd.eff': 'Eficiencia',
       'd.eff.tip': 'Eficiencia del módulo = P / (G · A)',
+      'p.eff.tip': 'Eficiencia máxima del módulo = Pmax / (G · A)',
       'out.load': 'Carga:',
       'mode.voltage': 'Control por tensión',
       'mode.current': 'Control por corriente',
