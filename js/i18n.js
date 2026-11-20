@@ -16,7 +16,7 @@ const I18N = (() => {
     en: {
       'app.title': 'PV Module Simulator',
       'lang.label': 'Language',
-      'link.zenodo.tip': 'Open the Zenodo record (opens in a new tab)',
+      'link.video.tip': 'Watch the video on YouTube (opens in a new tab)',
       'link.github.tip': 'Open the GitHub repository (opens in a new tab)',
       'footer.by': 'Created by',
       'proj.label': 'Projector',
@@ -127,7 +127,7 @@ const I18N = (() => {
     es: {
       'app.title': 'Simulador de módulo FV',
       'lang.label': 'Idioma',
-      'link.zenodo.tip': 'Abrir el registro de Zenodo (se abre en otra pestaña)',
+      'link.video.tip': 'Ver el vídeo en YouTube (se abre en otra pestaña)',
       'link.github.tip': 'Abrir el repositorio de GitHub (se abre en otra pestaña)',
       'footer.by': 'Creado por',
       'proj.label': 'Proyector',

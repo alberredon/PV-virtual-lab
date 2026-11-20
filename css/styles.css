@@ -94,7 +94,7 @@ body {
   letter-spacing: -.01em;
   color: var(--ink);
 }
-/* Acciones de la cabecera: Zenodo · GitHub · Proyector · Idioma */
+/* Acciones de la cabecera: Vídeo · GitHub · Proyector · Idioma */
 .top-actions {
   display: flex;
   flex-wrap: wrap;

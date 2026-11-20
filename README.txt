@@ -112,5 +112,6 @@ an internet connection is required.
 
 Author:   Alberto Redondo Plaza
 Code:     https://github.com/alberredon/PV-virtual-lab
+Video:    https://www.youtube.com/watch?v=KbP_Rgd2ljE
 DOI:      [to be completed with the Zenodo DOI]
 License:  [to be completed]
