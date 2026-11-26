@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=20261120b">
+  <link rel="stylesheet" href="css/styles.css?v=20261126b">
 </head>
 <body>
 
@@ -246,14 +246,31 @@
         </g>
       </g>
 
-      <!-- Diodos de bypass (3 subcadenas de 20 células) -->
+      <!-- Diodos de bypass (3 subcadenas de 20 células).
+           Clic (o Intro) en un diodo → pregunta si quitarlo / volver a ponerlo.
+           El cable vertical se corta en cada diodo: si se quita, queda el hueco. -->
       <g id="bypassDiodes" stroke="#000" stroke-width="3" fill="none">
-        <line x1="590" y1="40" x2="590" y2="384"/>
+        <line x1="590" y1="40" x2="590" y2="86"/>
+        <line x1="590" y1="106" x2="590" y2="200"/>
+        <line x1="590" y1="220" x2="590" y2="316"/>
+        <line x1="590" y1="336" x2="590" y2="384"/>
         <line x1="530" y1="152" x2="590" y2="152"/>
         <line x1="530" y1="268" x2="590" y2="268"/>
-        <g id="diode1" class="diode"><polygon points="576,86 604,86 590,106" fill="#000"/><line x1="574" y1="106" x2="606" y2="106"/><path class="diode-arrow" d="M560,78 V108 M552,99 L560,109 L568,99"/></g>
-        <g id="diode2" class="diode"><polygon points="576,200 604,200 590,220" fill="#000"/><line x1="574" y1="220" x2="606" y2="220"/><path class="diode-arrow" d="M560,192 V222 M552,213 L560,223 L568,213"/></g>
-        <g id="diode3" class="diode"><polygon points="576,316 604,316 590,336" fill="#000"/><line x1="574" y1="336" x2="606" y2="336"/><path class="diode-arrow" d="M560,308 V338 M552,329 L560,339 L568,329"/></g>
+        <g id="diode1" class="diode" tabindex="0" role="button" aria-haspopup="dialog">
+          <rect class="diode-hit" x="566" y="70" width="48" height="52"/>
+          <polygon points="576,86 604,86 590,106" fill="#000"/><line x1="574" y1="106" x2="606" y2="106"/>
+          <path class="diode-arrow" d="M560,78 V108 M552,99 L560,109 L568,99"/>
+        </g>
+        <g id="diode2" class="diode" tabindex="0" role="button" aria-haspopup="dialog">
+          <rect class="diode-hit" x="566" y="184" width="48" height="52"/>
+          <polygon points="576,200 604,200 590,220" fill="#000"/><line x1="574" y1="220" x2="606" y2="220"/>
+          <path class="diode-arrow" d="M560,192 V222 M552,213 L560,223 L568,213"/>
+        </g>
+        <g id="diode3" class="diode" tabindex="0" role="button" aria-haspopup="dialog">
+          <rect class="diode-hit" x="566" y="300" width="48" height="52"/>
+          <polygon points="576,316 604,316 590,336" fill="#000"/><line x1="574" y1="336" x2="606" y2="336"/>
+          <path class="diode-arrow" d="M560,308 V338 M552,329 L560,339 L568,329"/>
+        </g>
       </g>
 
       <!-- % de sombra (célula más sombreada) de cada subcadena -->
@@ -561,13 +578,24 @@
   </form>
 </dialog>
 
+<!-- Quitar / volver a poner un diodo de bypass -->
+<dialog id="diodeDialog" class="config-dialog confirm-dialog" aria-labelledby="diodeDlgTitle">
+  <form method="dialog">
+    <h3 id="diodeDlgTitle">Remove bypass diode?</h3>
+    <div class="dialog-buttons">
+      <button type="submit" value="cancel" class="btn-secondary" data-i18n="btn.cancel">Cancel</button>
+      <button type="submit" value="confirm" class="btn-primary" id="diodeDlgOk">Remove</button>
+    </div>
+  </form>
+</dialog>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
-<script src="js/i18n.js?v=20261120b"></script>
-<script src="js/pvModel.js?v=20261120b"></script>
-<script src="js/mppt.js?v=20261120b"></script>
-<script src="js/charts.js?v=20261120b"></script>
-<script src="js/scope.js?v=20261120b"></script>
-<script src="js/ui.js?v=20261120b"></script>
-<script src="js/main.js?v=20261120b"></script>
+<script src="js/i18n.js?v=20261126b"></script>
+<script src="js/pvModel.js?v=20261126b"></script>
+<script src="js/mppt.js?v=20261126b"></script>
+<script src="js/charts.js?v=20261126b"></script>
+<script src="js/scope.js?v=20261126b"></script>
+<script src="js/ui.js?v=20261126b"></script>
+<script src="js/main.js?v=20261126b"></script>
 </body>
 </html>
